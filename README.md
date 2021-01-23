@@ -1,10 +1,16 @@
-# Spotify-AdBlock-AutoUpdateBlock-1.0.80.474
-*Download:*
-Installer.bat
-create near folder with name "bin" and put installer file of Spotify version 1.0.80.474.exe named "Spotify_v1.0.80.474.exe" then start Installer.bat
+### Features
 
-tl;dr
-Dir tree:
+# Spotify-AdBlock-AutoUpdateBlock
+##Download:
+**Installer.bat**
+create near folder with name *bin* and put downloaded exe of Spotify installer version 1.0.80.474.exe named "Spotify_v1.0.80.474.exe" then start **Installer.bat**
+
+- This poroject works only with: 1.0.80.474 version.
+
+
+
+
+
+###### Dir Tree:
 Installer.bat
-      \bin\Spotify_v1.0.80.474.exe
- 
+\bin\Spotify_v1.0.80.474.exe
