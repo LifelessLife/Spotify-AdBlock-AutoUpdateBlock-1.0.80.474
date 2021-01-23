@@ -7,3 +7,4 @@ tl;dr
 Dir tree:
 Installer.bat
       \bin\Spotify_v1.0.80.474.exe
+ 
