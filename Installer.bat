@@ -60,9 +60,13 @@ GOTO END
 :ACCEPTED
 TASKKILL /im SpotifyWebHelper.exe /t
 DEL %appdata%\Spotify\Update /F /Q
+DEL %localappdata%\Spotify\Update /F /Q
 mkdir %appdata%\Spotify\Update
+mkdir %localappdata%\Spotify\Update
 icaCLS %appdata%\Spotify\Update /deny "%username%":D
 icaCLS %appdata%\Spotify\Update /deny "%username%":R
+icaCLS %localappdata%\Spotify\Update /deny "%username%":D
+icaCLS %localappdata%\Spotify\Update /deny "%username%":R
 SETlocal enableDELayedexpansion
 SET LIST=(pubads.g.doubleclick.NET securepubads.g.doubleclick.NET www.googletagservices.com www.gads.pubmatic.com ads.pubmatic.com spclient.wg.spotify.com)
 SET pubads.g.doubleclick.NET=0.0.0.0
