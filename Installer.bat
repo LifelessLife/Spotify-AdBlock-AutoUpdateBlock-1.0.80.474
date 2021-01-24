@@ -22,11 +22,12 @@ if '%errorlevel%' NEQ '0' (
 :--------------------------------------
 :LOOP
 CLS
-TASKKILL /t /f /im Spotify.exe,,hide
+TASKKILL /t /f /im Spotify.exe
 CLS
-TASKKILL /t /f /im SpotifyWebHelper.exe,,hide
+TASKKILL /t /f /im SpotifyWebHelper.exe
 CLS
 RMDIR /s /q %appdata%\Spotify
+RMDIR /s /q %localappdata%\Spotify
 CLS
 NET sess>nul 2>&1||(powershell start cmd -ArgumentList """/c %~0""" -verb Runas & exit)
 CD %TMP%
