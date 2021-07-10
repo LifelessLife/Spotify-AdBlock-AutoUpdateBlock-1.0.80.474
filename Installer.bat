@@ -91,6 +91,7 @@ icaCLS %appdata%\Spotify\Update /deny "%username%":D
 icaCLS %appdata%\Spotify\Update /deny "%username%":R
 icaCLS %localappdata%\Spotify\Update /deny "%username%":D
 icaCLS %localappdata%\Spotify\Update /deny "%username%":R
+
 SETlocal enableDELayedexpansion
 SET LIST=(Spotify: pubads.g.doubleclick.NET securepubads.g.doubleclick.NET www.googletagservices.com www.gads.pubmatic.com ads.pubmatic.com spclient.wg.spotify.com ‾‾‾‾‾‾‾)
 SET Spotify:
@@ -111,10 +112,12 @@ for  %%G in (%_list%) do (
     ECHO %NEWLINE%^!_value! !_name!>>tmp.txt
     copy /b/v/y tmp.txt %WINDIR%\System32\drivers\etc\hosts
     DEL tmp.txt
-)
+    )
+    
 ipconfig /flushdns
 CLS
 TIMEOUT 1 > NUL
+
 ECHO #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
 ECHO.
 ECHO  1. Reklamy i aktualizacje zablokowane. (w Spotify)
