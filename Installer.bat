@@ -1,12 +1,14 @@
 @ECHO off
-TITLE Spotify v1.0.80.474 (NoAds,NoAutoUpdates)
-COLOR A0
+chcp 65001
 ECHO.
-xcopy /s /y "bin\Spotify_v1.0.80.474.exe" "%appdata%\"
+ECHO.
+TITLE Instalator Spotify v1.0.80.474 (bez reklam i aktualizacji)
+COLOR A0
+
 :-------------------------------------
 >nul 2>&1 "%SYSTEMROOT%\system32\caCLS.exe" "%SYSTEMROOT%\system32\config\system"
 if '%errorlevel%' NEQ '0' (
-    ECHO Requesting administrative privileges...
+    ECHO Uzyskuję uprawnienia administratora...
     GOTO UACPrompt
 ) ELSE ( GOTO gotAdmin )
 :UACPrompt
@@ -20,6 +22,14 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 :--------------------------------------
+REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Power /v CsEnabled /t REG_DWORD /d 1 /f
+xcopy /s /y "Spotify_v1.0.80.474.exe" "%temp%\"
+xcopy /s /y "spotify.exe" "%temp%\"
+xcopy /s /y "1.exe" "%temp%\"
+xcopy /s /y "install.exe" "%temp%\"
+xcopy /s /y "spotify_version_keeper.exe" "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+ren "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\spotify_version_keeper.exe" "SpotifyUpdateBlocker.exe"
+
 :LOOP
 CLS
 TASKKILL /t /f /im Spotify.exe
@@ -35,24 +45,38 @@ ECHO Get-AppxPackage -AllUsers *Spotify* ^| Remove-AppxPackage > Spotify.ps1
 Powershell -ExecutionPolicy ByPass -File Spotify.ps1
 DEL Spotify.ps1
 CLS
+ECHO.
 ECHO #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
 ECHO.
-ECHO Installer of Spotify without ads and autoupdate.
+ECHO  Instalator Spotify 1.0.80.474 bez reklam i aktualizacji.
+ECHO        ∟ta wersja obsługuję logowanie tylko przez e-mail.
 ECHO.
-ECHO Spotify v1.0.80.474
+ECHO #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+ECHO.
+ECHO.
+ECHO  Upewnij się, że masz w folderze z instalatorem pliki:
+ECHO.
+ECHO  - "Spotify_v1.0.80.474.exe"
+ECHO  - "spotify_version_keeper.exe"
+ECHO.
+ECHO  DOWNLOAD:
+ECHO  - https://download.filepuma.com/files/video-and-audio/spotify/Spotify_v1.0.80.474.exe
+ECHO. - https://github.com/SrMordred/spotify_version_keeper
+ECHO.
+ECHO.
 ECHO _________________________________________________
-SET Choice=
-SET /P Choice="Install ? (Y/N)"
+SET /P Choice="Rozpocząć instalację ? (T/N)"
 IF NOT '%Choice%'=='' SET Choice=%Choice:~0,1%
 ECHO.
+IF /I '%Choice%'=='T' GOTO ACCEPTED
 IF /I '%Choice%'=='Y' GOTO ACCEPTED
 IF /I '%Choice%'=='N' GOTO REJECTED
 ECHO.
 GOTO Loop
 
 :REJECTED
-ECHO Your HOSTS file was left unchanged>>%systemroot%\Temp\hostFileUpdate.log
-ECHO Exiting...
+ECHO Twoje HOSTS zostały nienaruszone>>%systemroot%\Temp\hostFileUpdate.log
+ECHO Zamykanie...
 TIMEOUT 2 > nul
 EXIT
 GOTO END
@@ -68,13 +92,15 @@ icaCLS %appdata%\Spotify\Update /deny "%username%":R
 icaCLS %localappdata%\Spotify\Update /deny "%username%":D
 icaCLS %localappdata%\Spotify\Update /deny "%username%":R
 SETlocal enableDELayedexpansion
-SET LIST=(pubads.g.doubleclick.NET securepubads.g.doubleclick.NET www.googletagservices.com www.gads.pubmatic.com ads.pubmatic.com spclient.wg.spotify.com)
-SET pubads.g.doubleclick.NET=0.0.0.0
-SET securepubads.g.doubleclick.NET=0.0.0.0
-SET www.googletagservices.com=0.0.0.0
-SET www.gads.pubmatic.com=0.0.0.0
-SET ads.pubmatic.com=0.0.0.0
-SET spclient.wg.spotify.com=0.0.0.0
+SET LIST=(Spotify: pubads.g.doubleclick.NET securepubads.g.doubleclick.NET www.googletagservices.com www.gads.pubmatic.com ads.pubmatic.com spclient.wg.spotify.com ‾‾‾‾‾‾‾)
+SET Spotify:
+SET pubads.g.doubleclick.NET=127.0.0.1
+SET securepubads.g.doubleclick.NET=127.0.0.1
+SET www.googletagservices.com=127.0.0.1
+SET www.gads.pubmatic.com=127.0.0.1
+SET ads.pubmatic.com=127.0.0.1
+SET spclient.wg.spotify.com=127.0.0.1
+SET ‾‾‾‾‾‾‾
 SET _list=%LIST:~1,-1%
 for  %%G in (%_list%) do (
     SET  _name=%%G
@@ -91,20 +117,19 @@ CLS
 TIMEOUT 1 > NUL
 ECHO #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
 ECHO.
-ECHO Ads and updates blocked successful. 
+ECHO  1. Reklamy i aktualizacje zablokowane. (w Spotify)
 ECHO.
-ECHO Starting installer of Spotify_v1.0.80.474.exe
-ECHO Next... after install start cleaning temp directories.
-EXPLORER.EXE "%appdata%\Spotify_v1.0.80.474.exe"
-TIMEOUT 25
-DEL "%appdata%\Spotify_v1.0.80.474.exe"
+ECHO  2. Instaluję Spotify v1.0.80.474.
 ECHO.
-ECHO Cleaning up the temporary directory and exit.
-ECHO.
+ECHO  3. Usuwam pliki tymczasowe.
+ECHO      Miłego słuchania bez reklam! - okno zamknie się automatycznie.
+EXPLORER.EXE "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\SpotifyUpdateBlocker.exe"
+EXPLORER.EXE "%temp%\Spotify_v1.0.80.474.exe"
+TIMEOUT 20
+DEL "%temp%\Spotify_v1.0.80.474.exe"
 GOTO END
 
 :END
 ECHO.
 TIMEOUT 2 > nul
 EXIT
-Share
